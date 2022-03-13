@@ -47,7 +47,7 @@ public class MenuUIHandler : MonoBehaviour
 
     public void ReadStringInput(string s)
     {
-        input = s;
-        Debug.Log(input);
+        //input = s;
+        //Debug.Log(input);
     }
 }

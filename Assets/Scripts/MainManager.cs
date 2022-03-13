@@ -69,13 +69,7 @@ public class MainManager : MonoBehaviour
         ScoreText.text = $"Score : {m_Points}";
     }
 
-    //void AddName(string pN)
-    //{
-      //  playerName = menuScript.input;
-        //pN = playerName;
-        //ScoreText.text = $" {playerName} Score : {m_Points}";
-    //}
-
+   
     public void GameOver()
     {
         m_GameOver = true;

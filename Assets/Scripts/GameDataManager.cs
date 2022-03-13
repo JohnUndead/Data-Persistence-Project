@@ -29,7 +29,10 @@ private void Awake()
     public void SetPlayerName()
     {
         playerName = inputField.text;
+        Debug.Log(playerName); //That just works once at first start
         //Here I need to pass this to a text in-game and then save it into a json file.
+        // + Need to display this in a "main" scene text.
+
     }
 
     //void AddName(string pN)
