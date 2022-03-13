@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif 
 
 [DefaultExecutionOrder(1000)]
+
 public class MenuUIHandler : MonoBehaviour
 {
+    public static string input;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +33,7 @@ public class MenuUIHandler : MonoBehaviour
 
 
     }
+
     public void Exit()
     {
         
@@ -38,5 +43,11 @@ public class MenuUIHandler : MonoBehaviour
 #else
         Application.Quit(); // original code to quit Unity player
 #endif
+    }
+
+    public void ReadStringInput(string s)
+    {
+        input = s;
+        Debug.Log(input);
     }
 }
