@@ -3,29 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainManager : MonoBehaviour
 {
-    
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
+
     public Text ScoreText;
+    public Text MainBestText;
+
     public GameObject GameOverText;
-    
+
+    public Text displayPlayerName;
+
     private bool m_Started = false;
     private int m_Points;
-    
+
     private bool m_GameOver = false;
 
-    
+    private int m_BestScore;
     // Start is called before the first frame update
     void Start()
     {
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
-        int[] pointCountArray = new [] {1,1,2,2,5,5};
+
+        int[] pointCountArray = new[] { 1, 1, 2, 2, 5, 5 };
         for (int i = 0; i < LineCount; ++i)
         {
             for (int x = 0; x < perLine; ++x)
@@ -36,6 +41,8 @@ public class MainManager : MonoBehaviour
                 brick.onDestroyed.AddListener(AddPoint);
             }
         }
+        MenuUIHandler.saveScript.FindGameManager();
+        displayPlayerName.text = BestScoreText();
     }
 
     private void Update()
@@ -57,23 +64,47 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene(0); 
-                //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
     }
-
     void AddPoint(int point)
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
     }
 
-   
     public void GameOver()
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
-    }
 
+        MenuUIHandler.saveScript.LoadName();
+        SaveBestScore();
+        displayPlayerName.text = BestScoreText();
+
+    }
+    public void SaveBestScore()
+    {
+        if (m_Points >= LoadBestScore())
+        {
+            m_BestScore = m_Points;
+            PlayerPrefs.SetInt("best score", m_BestScore);
+            PlayerPrefs.SetString("best name", MenuUIHandler.saveScript.playerName);
+        }
+
+    }
+    public int LoadBestScore()
+    {
+        return PlayerPrefs.GetInt("best score");
+    }
+    public string LoadBestScoreName()
+    {
+        return PlayerPrefs.GetString("best name");
+    }
+    public string BestScoreText()
+    {
+        string bestScoreText = "Score : " + LoadBestScoreName() + " : " + LoadBestScore();
+        return bestScoreText;
+    }
 }
